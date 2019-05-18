@@ -73,8 +73,8 @@ public class GeoNames {
                 .withColumn("combined", struct("c.name", "c.population"))
                 .orderBy(col("c.country_code"), col("c.admin1_code"))
                 .groupBy(col("c.country_code"), col("c.admin1_code"))
-                .agg(callUDF("toMyFormattedString", collect_list("combined")).as("cities"));
-              //  .agg(collect_list("combined").as("cities"));
+              //  .agg(callUDF("toMyFormattedString", collect_list("combined")).as("cities"));
+                .agg(collect_list("combined").as("cities"));
 
         bigCitiesByProvince.printSchema();
         bigCitiesByProvince.show(100, false);
