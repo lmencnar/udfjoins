@@ -112,7 +112,7 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
             str = new String(buffer, buf_pos, lineend - buf_pos - 1, charSet);
         } else {
             // str = new String(buffer, 0, buf_pos, lineend - buf_pos);
-            str = new String(buffer, 0, lineend - buf_pos - 1, charSet);
+            str = new String(buffer, buf_pos, lineend - buf_pos, charSet);
         }
         buf_pos = lineend +1;
         return str;

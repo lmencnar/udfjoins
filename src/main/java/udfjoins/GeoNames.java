@@ -13,8 +13,8 @@ import scala.collection.mutable.WrappedArray;
 import static org.apache.spark.sql.functions.*;
 
 // needs data downloaded from GeoNames
-// http://download.geonames.org/export/zip/CH.zip
-// http://download.geonames.org/export/zip/allCountries.zip
+// http://download.geonames.org/export/dump/CH.zip
+// http://download.geonames.org/export/dump/allCountries.zip
 // download, unzip in a folder "data" parallel to the project
 // execute GeoNames class for example in IntelliJ IDEA
 public class GeoNames {
@@ -43,12 +43,16 @@ public class GeoNames {
                 .option("header", false)
                 .option("delimiter", "\t")
                 .schema(schema).load(
-        //        "../data/allCountries.txt");
+         //       "../data/allCountries.txt");
          "../data/CH.txt");
 
         df.createOrReplaceTempView("geonames");
         df.printSchema();
 
+
+        Dataset<Row> someCities =
+                spark.sql("SELECT name, admin1_code, feature_code, population FROM geonames LIMIT 100");
+        someCities.show(100, false);
 
         Dataset<Row> bigCities =
                 spark.sql("SELECT name, admin1_code, feature_code, population FROM geonames WHERE population > 5000 AND feature_code = 'ADM3' ORDER BY population desc LIMIT 100");
@@ -108,9 +112,10 @@ create table MYGEONAMES
 	"modification_date" VARCHAR2(255)
 )
          */
-/*
+
         // create table first to have clob in, truncate and load data as below
         // 15 min for 11 mln records
+        /*
         Dataset<Row> allNames = df.alias("c")
                 .select("*")
                 .where("c.geonameid IS NOT NULL");
@@ -130,7 +135,7 @@ create table MYGEONAMES
                 .option("truncate", "true")
                 .save();
 
-        bigCitiesByCanton.write()
+        bigCitiesByProvince.write()
                 .format("jdbc")
                 .option("url", "jdbc:oracle:thin:@192.168.4.10:1521:ORCLCDB")
                 .option("dbtable", "canton_cities")
@@ -138,8 +143,8 @@ create table MYGEONAMES
                 .option("password", "Diff@r3nt")
                 .save();
 
- */
-
+ 
+*/
         long endTime = System.currentTimeMillis();
 
         System.out.println("Execution time " + (endTime - startTime)/1000.0 + " seconds");

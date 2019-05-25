@@ -1,7 +1,5 @@
 package udfjoins;
 
-import org.json4s.FileInput;
-
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Scanner;

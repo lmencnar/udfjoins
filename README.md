@@ -11,9 +11,9 @@ https://medium.com/@dvainrub/how-to-install-apache-spark-2-x-in-your-pc-e2047246
 
 Needs data downloaded from GeoNames.
 
-http://download.geonames.org/export/zip/CH.zip
+http://download.geonames.org/export/dump/CH.zip
 
-http://download.geonames.org/export/zip/allCountries.zip
+http://download.geonames.org/export/dump/allCountries.zip
 
 Download, unzip in a folder "data" parallel to the project
 
