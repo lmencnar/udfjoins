@@ -77,8 +77,8 @@ public class GeoNames {
                 .withColumn("combined", struct("c.name", "c.population"))
                 .orderBy(col("c.country_code"), col("c.admin1_code"))
                 .groupBy(col("c.country_code"), col("c.admin1_code"))
-              //  .agg(callUDF("toMyFormattedString", collect_list("combined")).as("cities"));
-                .agg(collect_list("combined").as("cities"));
+                .agg(callUDF("toMyFormattedString", collect_list("combined")).as("cities"));
+              //  .agg(collect_list("combined").as("cities"));
 
         bigCitiesByProvince.printSchema();
         bigCitiesByProvince.show(100, false);
@@ -151,14 +151,16 @@ create table MYGEONAMES
 
     }
 
-    private static UDF1 toMyFormattedString= new UDF1<WrappedArray, String>() {
-        public String call(final WrappedArray a) throws Exception {
-            Iterator i = a.iterator();
-            int count = 0;
+    private static UDF1<WrappedArray<GenericRowWithSchema>, String> toMyFormattedString = new UDF1<WrappedArray<GenericRowWithSchema>, String>() {
+        private static final long serialVersionUID = 1L;
+        
+        public String call(final WrappedArray<GenericRowWithSchema> a) throws Exception {
+            Iterator<GenericRowWithSchema> i = a.iterator();
+            // int count = 0;
             // serialize as line of text
             StringBuffer buf = new StringBuffer();
             while(i.hasNext()) {
-                GenericRowWithSchema x = (GenericRowWithSchema) i.next();
+                GenericRowWithSchema x = i.next();
                 for(int j=0; j<x.length(); j++) {
                     Object o = x.get(j);
                     buf.append(o.toString() + " ");

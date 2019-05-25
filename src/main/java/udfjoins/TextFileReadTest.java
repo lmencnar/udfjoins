@@ -89,7 +89,7 @@ public class TextFileReadTest {
         long lineCount = 0;
         try (Scanner scanner = new Scanner(new File(fileName))) {
             while (scanner.hasNext()) {
-                String line = scanner.nextLine();
+                scanner.nextLine();
                 lineCount++;
                 if(lineCount % 10000 == 0) {
                     // System.out.println(lineCount);
@@ -106,8 +106,7 @@ public class TextFileReadTest {
              BufferedReader br = new BufferedReader(file))
         {
             long lineCount = 0;
-            String line;
-            while( (line = br.readLine()) != null) {
+            while( (br.readLine()) != null) {
                 lineCount++;
                 if(lineCount % 10000 == 0) {
                     // System.out.println(lineCount);
@@ -123,8 +122,7 @@ public class TextFileReadTest {
 
         long lineCount = 0;
         try (RandomAccessFile rf = new RandomAccessFile(fileName, "r")){
-            String line;
-            while ( (line = rf.readLine()) != null ) {
+            while ( (rf.readLine()) != null ) {
                 lineCount++;
                 if(lineCount % 10000 == 0) {
                     // System.out.println(lineCount);
@@ -141,8 +139,7 @@ public class TextFileReadTest {
         Charset charSet = Charset.forName("UTF-8");
         long lineCount = 0;
         try (BufferedRandomAccessFile brf = new BufferedRandomAccessFile(fileName, "r", 100 * 1024)){
-            String line;
-            while ( (line = brf.getNextLine(charSet)) != null ) {
+            while ( (brf.getNextLine(charSet)) != null ) {
                 lineCount++;
                 if(lineCount % 10000 == 0) {
                     // System.out.println(lineCount);
